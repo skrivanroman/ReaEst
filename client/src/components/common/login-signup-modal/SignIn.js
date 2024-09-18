@@ -1,15 +1,33 @@
 import Link from "next/link";
-import React from "react";
+import React, {useState} from "react";
 
 const SignIn = () => {
+  const [formData, setFormData] = useState({userName: '', password: '',})
+
+  const updateInput = event => {
+    setFormData({...formData, [event.target.name]: event.target.value})
+  }
+  const loginUser = async event => {
+    event.preventDefault()
+
+    const response = await fetch('http://localhost:3001/login', {
+      method: 'POST',
+      body: formData,
+    })
+    const data = await response.text()
+    console.log(data)
+
+  }
   return (
-    <form className="form-style1">
+    <form className="form-style1" onSubmit={loginUser}>
       <div className="mb25">
         <label className="form-label fw600 dark-color">Email</label>
         <input
           type="email"
+          name="userName"
           className="form-control"
           placeholder="Enter Email"
+          onChange={updateInput}
           required
         />
       </div>
@@ -19,8 +37,10 @@ const SignIn = () => {
         <label className="form-label fw600 dark-color">Password</label>
         <input
           type="text"
+          name="password"
           className="form-control"
           placeholder="Enter Password"
+          onChange={updateInput}
           required
         />
       </div>

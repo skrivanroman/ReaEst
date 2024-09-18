@@ -7,9 +7,9 @@ const authUser = (name, password) => {
 }
 
 loginRouter.post('/login', (req, res, next) => {
-    const {name, password} = req.body
-    if (authUser(name, password))
-        res.header('auth-token', 'gut')
+    const {userName, password} = req.body
+    if (authUser(userName, password))
+        res.write('gut')
     else
         res.write('login failed')
 
