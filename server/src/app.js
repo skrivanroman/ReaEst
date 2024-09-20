@@ -5,9 +5,10 @@ import cors from 'cors'
 const app = express();
 const port = 3001;
 
-app.use(cors({origin: 'http://127.0.0.1:3000'}))
+app.use(cors({origin: 'http://localhost:3000'}))
+app.use(express.json())
 
-app.use('/', loginRouter)
+app.use('/api', loginRouter)
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}!`);

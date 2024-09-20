@@ -1,21 +1,28 @@
 import Link from "next/link";
 import React, {useState} from "react";
+import {useRouter} from 'next/router'
 
 const SignIn = () => {
   const [formData, setFormData] = useState({userName: '', password: '',})
+  //const router = useRouter()
 
   const updateInput = event => {
     setFormData({...formData, [event.target.name]: event.target.value})
   }
   const loginUser = async event => {
     event.preventDefault()
-
-    const response = await fetch('http://localhost:3001/login', {
+    
+    const response = await fetch('http://localhost:3001/api/authUser', {
       method: 'POST',
-      body: formData,
+      body: JSON.stringify(formData),
+      headers: {
+        'Content-Type': 'application/json',
+      } 
     })
     const data = await response.text()
     console.log(data)
+   // if (data === 'gut')
+    //  router.push('/dashboard-home')
 
   }
   return (
