@@ -1,7 +1,7 @@
 import SignIn from "./SignIn";
 import SignUp from "./SignUp";
 
-const LoginSignupModal = () => {
+const LoginSignupModal = ({router}) => {
   return (
     <div className="modal-content">
       <div className="modal-header">

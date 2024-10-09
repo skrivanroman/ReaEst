@@ -1,11 +1,15 @@
+'use client'
+
 import SignIn from "@/components/common/login-signup-modal/SignIn";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
+/*
 export const metadata = {
   title: "Login  || Homez - Real Estate NextJS Template",
 };
+*/
 
 const Login = () => {
   return (
