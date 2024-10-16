@@ -56,7 +56,7 @@ User.register = async (email, password, firstName, lastName) => {
 	}
 }
 
-User.login = async ({ email, password }) => {
+User.login = async (email, password) => {
 	try {
 		const [currUser] = await User.findAll({
 			attributes: ['password'],
