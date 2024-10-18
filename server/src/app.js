@@ -11,7 +11,14 @@ import propertyRouter from './routes/property.js'
 const app = express()
 const port = 3001
 
-app.use(cors())
+app.use(cors({ origin: 'http://localhost:3000' }))
+app.use((_, res, next) => {
+	res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000')
+	res.setHeader('Access-Control-Allow-Credentials', 'true')
+	res.setHeader('Access-Control-Allow-Headers', 'Access-Control-Allow-Credentials')
+	console.log('set')
+	next()
+})
 app.use(express.json())
 
 app.use('/api', loginRouter)

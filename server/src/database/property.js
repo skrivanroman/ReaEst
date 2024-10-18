@@ -1,5 +1,6 @@
 import { DataTypes } from 'sequelize'
 import sequelize from './connection.js'
+import User from './user.js'
 
 const Property = sequelize.define(
 	'Proterty',
@@ -13,6 +14,13 @@ const Property = sequelize.define(
 		title: {
 			type: DataTypes.STRING,
 			allowNull: false,
+		},
+		fkUserId: {
+			type: DataTypes.INTEGER,
+			references: {
+				model: User,
+				key: 'user_id',
+			},
 		},
 		description: {
 			type: DataTypes.STRING,
@@ -39,6 +47,8 @@ const Property = sequelize.define(
 	},
 	{ underscored: true }
 )
+
+User.hasMany(Property)
 
 await Property.sync()
 

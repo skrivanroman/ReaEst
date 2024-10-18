@@ -11,7 +11,7 @@ const SignIn = () => {
 				clientId: '770073812767-m2bn3m478h9qfshj748mt23dgg4a07p1.apps.googleusercontent.com',
 			})
 		})
-	})
+	}, [])
 	const [formData, setFormData] = useState({ userName: '', password: '' })
 	const router = useRouter()
 
@@ -21,7 +21,7 @@ const SignIn = () => {
 	const loginUser = async (event) => {
 		event.preventDefault()
 
-		const response = await fetch('http://localhost:3001/api/authUser', {
+		const response = await fetch('http://localhost:3001/api/login', {
 			method: 'POST',
 			body: JSON.stringify(formData),
 			headers: {

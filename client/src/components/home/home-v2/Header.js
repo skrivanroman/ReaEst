@@ -54,7 +54,8 @@ const Header = () => {
 							<div className="col-auto">
 								<div className="d-flex align-items-center">
 									<a className="login-info d-flex align-items-center me-3" href="tel:+012305094502">
-										<i className="far fa-phone fz16 me-2"></i> <span className="d-none d-xl-block">2 911 098 7654</span>
+										<i className="far fa-phone fz16 me-2"></i>{' '}
+										<span className="d-none d-xl-block">+420 607 855 955</span>
 									</a>
 									<a
 										href="#"

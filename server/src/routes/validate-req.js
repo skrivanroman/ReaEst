@@ -1,7 +1,7 @@
 const validateReq = (schema) => {
-	return (req, res, next) => {
+	return async (req, res, next) => {
 		try {
-			const { error } = schema.validate(req.body)
+			const { error } = await schema.validateAsync(req.body)
 			if (error) {
 				throw new Error(error)
 			}
