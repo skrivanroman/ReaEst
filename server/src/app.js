@@ -4,6 +4,7 @@ import cors from 'cors'
 import sequelize from './database/connection.js'
 import User from './database/user.js'
 import propertyRouter from './routes/property.js'
+import cookieParser from 'cookie-parser'
 
 //await User.register('admin@test.com', '123', 'tony', 'Shmo')
 //console.log(await User.login({ email: 'admin@test.com', password: '133' }))
@@ -11,14 +12,8 @@ import propertyRouter from './routes/property.js'
 const app = express()
 const port = 3001
 
-app.use(cors({ origin: 'http://localhost:3000' }))
-app.use((_, res, next) => {
-	res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000')
-	res.setHeader('Access-Control-Allow-Credentials', 'true')
-	res.setHeader('Access-Control-Allow-Headers', 'Access-Control-Allow-Credentials')
-	console.log('set')
-	next()
-})
+app.use(cors({ origin: 'http://localhost:3000', credentials: true }))
+app.use(cookieParser())
 app.use(express.json())
 
 app.use('/api', loginRouter)
