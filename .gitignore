@@ -3,3 +3,7 @@ node_modules/
 /client/.next/
 out/
 build/
+.next/
+**/hnez/
+**/hnez2/
+**/smet/
