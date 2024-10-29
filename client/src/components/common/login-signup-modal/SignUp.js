@@ -1,28 +1,37 @@
 'use client'
 import Link from 'next/link'
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 import useForm from '@/utilis/useForm'
 import { useRouter } from 'next/navigation'
 
 const SignUp = () => {
 	const [formData, setFormData] = useForm({})
+	const passwordCheckRef = useRef(null)
 	const router = useRouter()
+	useEffect(() => {
+		passwordCheckRef.current.style.visibility = 'hidden'
+	}, [])
 	const register = async (event) => {
 		event.preventDefault()
+		const { email, password, passwordCheck } = formData
 
-		const { email, password } = formData
+		if (password !== passwordCheck) {
+			passwordCheckRef.current.style.visibility = 'visible'
+			return
+		}
+		passwordCheckRef.current.style.visibility = 'hidden'
+
 		const reqBody = { email, password, loginOption: 'password', firstName: 'johan', lastName: 'libert' }
 		const response = await fetch('http://localhost:3001/api/register', {
 			method: 'POST',
-			//credentials: 'include',
+			credentials: 'include',
 			body: JSON.stringify(reqBody),
 			headers: {
 				'Content-Type': 'application/json',
 			},
 		})
 		if (response.ok) {
-			console.log(response.status)
-			//router.push('/dashboard-home')
+			router.push('/dashboard-home')
 		} else {
 			console.log(response.status)
 		}
@@ -56,6 +65,9 @@ const SignUp = () => {
 					placeholder="Heslo znovu"
 					required
 				/>
+				<p className="fw600 red-color" ref={passwordCheckRef}>
+					Hesla se neschodují
+				</p>
 			</div>
 			{/* End Password */}
 

@@ -40,7 +40,7 @@ const SignIn = () => {
 					type="email"
 					name="userName"
 					className="form-control"
-					placeholder="Enter Email"
+					placeholder="Zadejte email"
 					onChange={updateInput}
 					required
 				/>
@@ -48,12 +48,12 @@ const SignIn = () => {
 			{/* End email */}
 
 			<div className="mb15">
-				<label className="form-label fw600 dark-color">Password</label>
+				<label className="form-label fw600 dark-color">Heslo</label>
 				<input
 					type="text"
 					name="password"
 					className="form-control"
-					placeholder="Enter Password"
+					placeholder="Zadejte heslo"
 					onChange={updateInput}
 					required
 				/>
@@ -62,26 +62,26 @@ const SignIn = () => {
 
 			<div className="checkbox-style1 d-block d-sm-flex align-items-center justify-content-between mb10">
 				<label className="custom_checkbox fz14 ff-heading">
-					Remember me
+					pomatovat si mě
 					<input type="checkbox" defaultChecked="checked" />
 					<span className="checkmark" />
 				</label>
 				<a className="fz14 ff-heading" href="#">
-					Lost your password?
+					zapoměli jste heslo?
 				</a>
 			</div>
 			{/* End  Lost your password? */}
 
 			<div className="d-grid mb20">
 				<button className="ud-btn btn-thm" type="submit">
-					Sign in <i className="fal fa-arrow-right-long" />
+					Přihlásit <i className="fal fa-arrow-right-long" />
 				</button>
 			</div>
 			{/* End submit */}
 
 			<div className="hr_content mb20">
 				<hr />
-				<span className="hr_top_text">OR</span>
+				<span className="hr_top_text">Nebo</span>
 			</div>
 
 			<div className="d-grid mb10">
@@ -94,7 +94,7 @@ const SignIn = () => {
 							onClick={renderProps.onClick}
 							disabled={renderProps.disabled}
 						>
-							<i className="fab fa-google" /> Continue Google
+							<i className="fab fa-google" /> Pokračovat přes Google
 						</button>
 					)}
 					onSuccess={(credentialResponse) => {
@@ -117,7 +117,7 @@ const SignIn = () => {
 			></GoogleLogout>
 			<div className="d-grid mb10">
 				<button className="ud-btn btn-fb" type="button">
-					<i className="fab fa-facebook-f" /> Continue Facebook
+					<i className="fab fa-facebook-f" /> Pokračovat přes Facebook
 				</button>
 			</div>
 			<div className="d-grid mb20">
@@ -126,9 +126,9 @@ const SignIn = () => {
 				</button>
 			</div>
 			<p className="dark-color text-center mb0 mt10">
-				Not signed up?{' '}
+				Nemáte účet?{' '}
 				<Link className="dark-color fw600" href="/register">
-					Create an account.
+					Zaregistrovat
 				</Link>
 			</p>
 		</form>
