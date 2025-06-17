@@ -15,9 +15,9 @@ app.use(cookieParser())
 app.use(express.json({ limit: '200mb' }))
 
 app.use('/', express.static(path.join(fileURLToPath(import.meta.url), '../../data')))
-app.use('/', loginRouter)
-app.use('/', propertyRouter)
-app.use('/', userRouter)
+app.use('/api', loginRouter)
+app.use('/api', propertyRouter)
+app.use('/api', userRouter)
 
 app.listen(port, () => {
 	console.log(`Example app listening on port ${port}!`)
