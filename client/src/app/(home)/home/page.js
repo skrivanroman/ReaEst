@@ -16,10 +16,10 @@ import Cta from '@/components/home/home-v2/Cta'
 import Link from 'next/link'
 
 export const metadata = {
-	title: 'Home v2 || Homez - Real Estate NextJS Template',
+	title: 'Reaest',
 }
 
-const Home_V2 = () => {
+const Home = () => {
 	return (
 		<>
 			{/* Main Header Nav */}
@@ -65,7 +65,7 @@ const Home_V2 = () => {
 						<div className="col-lg-9">
 							<div className="main-title2">
 								<h2 className="title">Vystavené nabídky</h2>
-								<p className="paragraph">Aliquam lacinia diam quis lacus euismod</p>
+								<p className="paragraph"></p>
 							</div>
 						</div>
 						<div className="col-lg-3">
@@ -96,8 +96,8 @@ const Home_V2 = () => {
 					<div className="row  justify-content-between align-items-center">
 						<div className="col-auto">
 							<div className="main-title" data-aos="fade-up" data-aos-delay="100">
-								<h2 className="title">Explore Cities</h2>
-								<p className="paragraph">Aliquam lacinia diam quis lacus euismod</p>
+								<h2 className="title">Města</h2>
+								<p className="paragraph"></p>
 							</div>
 						</div>
 						{/* End header */}
@@ -277,4 +277,4 @@ const Home_V2 = () => {
 	)
 }
 
-export default Home_V2
+export default Home

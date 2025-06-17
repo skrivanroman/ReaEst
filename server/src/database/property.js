@@ -11,6 +11,11 @@ const Property = sequelize.define(
 			autoIncrement: true,
 			allowNull: false,
 		},
+		uuid: {
+			type: DataTypes.STRING,
+			allowNull: true,
+			unique: true,
+		},
 		title: {
 			type: DataTypes.STRING,
 			allowNull: false,
@@ -32,24 +37,84 @@ const Property = sequelize.define(
 		price: {
 			type: DataTypes.INTEGER,
 		},
-		listedIn: {
+		payType: {
 			type: DataTypes.STRING,
 		},
 		status: {
 			type: DataTypes.STRING,
 		},
-		yearlyTex: {
+		yearlyTax: {
 			type: DataTypes.DECIMAL,
 		},
-		address: {
+		afterPrice: {
+			type: DataTypes.STRING,
+		},
+		imagesCount: {
+			type: DataTypes.INTEGER,
+		},
+		street: {
+			type: DataTypes.STRING,
+		},
+		country: {
+			type: DataTypes.STRING,
+		},
+		region: {
+			type: DataTypes.STRING,
+		},
+		zipCode: {
+			type: DataTypes.STRING,
+		},
+		city: {
+			type: DataTypes.STRING,
+		},
+		cityPart: {
+			type: DataTypes.STRING,
+		},
+		customId: {
+			type: DataTypes.STRING,
+		},
+		size: {
+			type: DataTypes.INTEGER,
+		},
+		roomCount: {
+			type: DataTypes.INTEGER,
+		},
+		bedroomCount: {
+			type: DataTypes.INTEGER,
+		},
+		bathroomCount: {
+			type: DataTypes.INTEGER,
+		},
+		garageCount: {
+			type: DataTypes.INTEGER,
+		},
+		yearBuilt: {
+			type: DataTypes.DATEONLY,
+		},
+		availableFrom: {
+			type: DataTypes.DATEONLY,
+		},
+		status: {
+			type: DataTypes.STRING,
+		},
+		lat: {
+			type: DataTypes.STRING,
+		},
+		lng: {
 			type: DataTypes.STRING,
 		},
 	},
 	{ underscored: true }
 )
 
-User.hasMany(Property)
+User.hasMany(Property, {
+	foreignKey: 'fk_user_id',
+})
 
-await Property.sync()
+Property.belongsTo(User, {
+	foreignKey: 'fk_user_id',
+})
+
+await Property.sync({ alter: false })
 
 export default Property

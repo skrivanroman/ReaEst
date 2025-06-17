@@ -7,19 +7,19 @@ const energyMetrics = [
 		value: 'G',
 	},
 	{
-		label: 'Renewable energy performance index',
+		label: 'Index výkonu obnovitelných zdrojů energie',
 		value: '92.42 kWh / m²a',
 	},
 	{
-		label: 'Energy performance of the building',
+		label: 'Energetická náročnost budovy',
 		value: '00.00 kWh / m²a',
 	},
 	{
-		label: 'EPC Current Rating',
+		label: 'Aktuální hodnocení energetického průkazu (EPC)',
 		value: '92',
 	},
 	{
-		label: 'EPC Potential Rating',
+		label: 'Potenciální hodnocení energetického průkazu (EPC)',
 		value: '80+',
 	},
 ]

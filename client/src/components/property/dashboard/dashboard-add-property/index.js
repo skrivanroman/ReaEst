@@ -1,146 +1,154 @@
-import React from "react";
-import PropertyDescription from "./property-description";
-import UploadMedia from "./upload-media";
-import LocationField from "./LocationField";
-import DetailsFiled from "./details-field";
-import Amenities from "./Amenities";
+'use client'
+import React, { useRef, useState } from 'react'
+import PropertyDescription from './property-description'
+import UploadMedia from './upload-media'
+import LocationField from './LocationField'
+import DetailsFiled from './details-field'
+import Amenities from './Amenities'
+import useForm from '@/utilis/useForm'
 
 const AddPropertyTabContent = () => {
-  return (
-    <>
-      <nav>
-        <div className="nav nav-tabs" id="nav-tab2" role="tablist">
-          <button
-            className="nav-link active fw600 ms-3"
-            id="nav-item1-tab"
-            data-bs-toggle="tab"
-            data-bs-target="#nav-item1"
-            type="button"
-            role="tab"
-            aria-controls="nav-item1"
-            aria-selected="true"
-          >
-            1. Description
-          </button>
-          <button
-            className="nav-link fw600"
-            id="nav-item2-tab"
-            data-bs-toggle="tab"
-            data-bs-target="#nav-item2"
-            type="button"
-            role="tab"
-            aria-controls="nav-item2"
-            aria-selected="false"
-          >
-            2. Media
-          </button>
-          <button
-            className="nav-link fw600"
-            id="nav-item3-tab"
-            data-bs-toggle="tab"
-            data-bs-target="#nav-item3"
-            type="button"
-            role="tab"
-            aria-controls="nav-item3"
-            aria-selected="false"
-          >
-            3. Location
-          </button>
-          <button
-            className="nav-link fw600"
-            id="nav-item4-tab"
-            data-bs-toggle="tab"
-            data-bs-target="#nav-item4"
-            type="button"
-            role="tab"
-            aria-controls="nav-item4"
-            aria-selected="false"
-          >
-            4. Detail
-          </button>
-          <button
-            className="nav-link fw600"
-            id="nav-item5-tab"
-            data-bs-toggle="tab"
-            data-bs-target="#nav-item5"
-            type="button"
-            role="tab"
-            aria-controls="nav-item5"
-            aria-selected="false"
-          >
-            5. Amenities
-          </button>
-        </div>
-      </nav>
-      {/* End nav tabs */}
+	const [formData, updateForm, setFormState] = useForm({})
+	const [uploadedImages, setUploadedImages] = useState([])
 
-      <div className="tab-content" id="nav-tabContent">
-        <div
-          className="tab-pane fade show active"
-          id="nav-item1"
-          role="tabpanel"
-          aria-labelledby="nav-item1-tab"
-        >
-          <div className="ps-widget bgc-white bdrs12 p30 overflow-hidden position-relative">
-            <h4 className="title fz17 mb30">Property Description</h4>
-            <PropertyDescription />
-          </div>
-        </div>
-        {/* End tab for Property Description */}
+	const uploadProperty = async (event) => {
+		event.preventDefault()
+		const reqBody = { ...formData, images: uploadedImages }
+		const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/property`, {
+			method: 'POST',
+			credentials: 'include',
+			body: JSON.stringify(reqBody),
+			headers: {
+				'Content-Type': 'application/json',
+			},
+		})
+		if (response.ok) {
+			console.log('Property uploaded')
+			//setFormState({})
+		} else {
+			console.log('Failed to upload property')
+		}
+	}
 
-        <div
-          className="tab-pane fade"
-          id="nav-item2"
-          role="tabpanel"
-          aria-labelledby="nav-item2-tab"
-        >
-          <UploadMedia />
-        </div>
-        {/* End tab for Upload photos of your property */}
+	const updateSelect = (selected, { name }) => {
+		if (Array.isArray(selected)) {
+			setFormState({ ...formData, [name]: selected.map(({ value }) => value) })
+		} else {
+			setFormState({ ...formData, [name]: selected.value })
+		}
+	}
 
-        <div
-          className="tab-pane fade"
-          id="nav-item3"
-          role="tabpanel"
-          aria-labelledby="nav-item3-tab"
-        >
-          <div className="ps-widget bgc-white bdrs12 p30 overflow-hidden position-relative">
-            <h4 className="title fz17 mb30">Listing Location</h4>
-            <LocationField />
-          </div>
-        </div>
-        {/* End tab for Listing Location */}
+	return (
+		<>
+			<nav>
+				<div className="nav nav-tabs" id="nav-tab2" role="tablist">
+					<button
+						className="nav-link active fw600 ms-3"
+						id="nav-item1-tab"
+						data-bs-toggle="tab"
+						data-bs-target="#nav-item1"
+						type="button"
+						role="tab"
+						aria-controls="nav-item1"
+						aria-selected="true"
+					>
+						1. Popis
+					</button>
+					<button
+						className="nav-link fw600"
+						id="nav-item2-tab"
+						data-bs-toggle="tab"
+						data-bs-target="#nav-item2"
+						type="button"
+						role="tab"
+						aria-controls="nav-item2"
+						aria-selected="false"
+					>
+						2. Obrázky
+					</button>
+					<button
+						className="nav-link fw600"
+						id="nav-item3-tab"
+						data-bs-toggle="tab"
+						data-bs-target="#nav-item3"
+						type="button"
+						role="tab"
+						aria-controls="nav-item3"
+						aria-selected="false"
+					>
+						3. Lokace
+					</button>
+					<button
+						className="nav-link fw600"
+						id="nav-item4-tab"
+						data-bs-toggle="tab"
+						data-bs-target="#nav-item4"
+						type="button"
+						role="tab"
+						aria-controls="nav-item4"
+						aria-selected="false"
+					>
+						4. Detaily
+					</button>
+					<button
+						className="nav-link fw600"
+						id="nav-item5-tab"
+						data-bs-toggle="tab"
+						data-bs-target="#nav-item5"
+						type="button"
+						role="tab"
+						aria-controls="nav-item5"
+						aria-selected="false"
+					>
+						5. Vybavení
+					</button>
+				</div>
+			</nav>
+			{/* End nav tabs */}
 
-        <div
-          className="tab-pane fade"
-          id="nav-item4"
-          role="tabpanel"
-          aria-labelledby="nav-item4-tab"
-        >
-          <div className="ps-widget bgc-white bdrs12 p30 overflow-hidden position-relative">
-            <h4 className="title fz17 mb30">Listing Details</h4>
-            <DetailsFiled />
-          </div>
-        </div>
-        {/* End tab for Listing Details */}
+			<div className="tab-content" id="nav-tabContent">
+				<div className="tab-pane fade show active" id="nav-item1" role="tabpanel" aria-labelledby="nav-item1-tab">
+					<div className="ps-widget bgc-white bdrs12 p30 overflow-hidden position-relative">
+						<h4 className="title fz17 mb30">Popis nemovitosti</h4>
+						<PropertyDescription {...{ updateForm, updateSelect }} />
+					</div>
+				</div>
+				{/* End tab for Property Description */}
 
-        <div
-          className="tab-pane fade"
-          id="nav-item5"
-          role="tabpanel"
-          aria-labelledby="nav-item5-tab"
-        >
-          <div className="ps-widget bgc-white bdrs12 p30 overflow-hidden position-relative">
-            <h4 className="title fz17 mb30">Select Amenities</h4>
-            <div className="row">
-              <Amenities />
-            </div>
-          </div>
-        </div>
-        {/* End tab for Select Amenities */}
-      </div>
-    </>
-  );
-};
+				<div className="tab-pane fade" id="nav-item2" role="tabpanel" aria-labelledby="nav-item2-tab">
+					<UploadMedia {...{ uploadedImages, setUploadedImages }} />
+				</div>
+				{/* End tab for Upload photos of your property */}
 
-export default AddPropertyTabContent;
+				<div className="tab-pane fade" id="nav-item3" role="tabpanel" aria-labelledby="nav-item3-tab">
+					<div className="ps-widget bgc-white bdrs12 p30 overflow-hidden position-relative">
+						<h4 className="title fz17 mb30">Adresa nemovitosti</h4>
+						<LocationField {...{ updateForm, updateSelect }} />
+					</div>
+				</div>
+				{/* End tab for Listing Location */}
+
+				<div className="tab-pane fade" id="nav-item4" role="tabpanel" aria-labelledby="nav-item4-tab">
+					<div className="ps-widget bgc-white bdrs12 p30 overflow-hidden position-relative">
+						<h4 className="title fz17 mb30">Detaily nemovitosti</h4>
+						<DetailsFiled {...{ updateForm }} />
+					</div>
+				</div>
+				{/* End tab for Listing Details */}
+
+				<div className="tab-pane fade" id="nav-item5" role="tabpanel" aria-labelledby="nav-item5-tab">
+					<div className="ps-widget bgc-white bdrs12 p30 overflow-hidden position-relative">
+						<h4 className="title fz17 mb30">Vybavení nemovitosti</h4>
+						<div className="row">
+							<Amenities />
+						</div>
+					</div>
+				</div>
+				{/* End tab for Select Amenities */}
+			</div>
+			<button onClick={uploadProperty}>Přidat</button>
+		</>
+	)
+}
+
+export default AddPropertyTabContent

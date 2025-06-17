@@ -39,10 +39,10 @@ const DefaultHeader = () => {
 								<div className="d-flex align-items-center justify-content-between">
 									<div className="logos mr40">
 										<Link className="header-logo logo1" href="/">
-											<Image width={138} height={44} src="/images/header-test.jpeg" alt="Header Logo" />
+											<Image width={50} height={50} src="/images/logo.jpeg" alt="Header Logo" />
 										</Link>
 										<Link className="header-logo logo2" href="/">
-											<Image width={138} height={44} src="/images/header-test.jpeg" alt="Header Logo" />
+											<Image width={50} height={50} src="/images/logo.jpeg" alt="Header Logo" />
 										</Link>
 									</div>
 									{/* End Logo */}
@@ -63,10 +63,10 @@ const DefaultHeader = () => {
 										role="button"
 									>
 										<i className="far fa-user-circle fz16 me-2" />{' '}
-										<span className="d-none d-xl-block">Login / Register</span>
+										<span className="d-none d-xl-block">Přihlásit / Registrovat</span>
 									</a>
 									<Link className="ud-btn btn-white add-property bdrs60 mx-2 mx-xl-4" href="/dashboard-add-property">
-										Add Property
+										Přidat inzerát
 										<i className="fal fa-arrow-right-long" />
 									</Link>
 									<a

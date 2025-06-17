@@ -41,11 +41,15 @@ const Office = () => {
 	return (
 		<>
 			{offices.map((office) => (
-				<div className="col-sm-6 col-lg-4 text-center" key={office.id}>
+				<div
+					className="col-sm-6 col-lg-4 text-center"
+					key={office.id}
+					style={{ width: '100px', height: '100px', 'text-align': 'left' }}
+				>
 					<div className="iconbox-style8 ">
-						<div className="social-style1 ">
-							<a key={office.id} href={office.link} target="_blank" style={{ 'font-size': '100px' }}>
-								<i className={office.iconClass} style={{ color: 'black' }} />
+						<div className="social-style1 text-center">
+							<a key={office.id} href={office.link} target="_blank" style={{ 'font-size': '40px' }}>
+								<i className={office.iconClass} style={{ color: 'black', marginLeft: '-18px' }} />
 							</a>
 						</div>
 						{/*<div className="icon">

@@ -1,27 +1,27 @@
 import React from 'react'
 
-const PropertyDetails = () => {
+const PropertyDetails = ({ data }) => {
 	const columns = [
 		[
 			{
 				label: 'ID nemovitosti',
-				value: '2024.10',
+				value: data.customId,
 			},
 			{
 				label: 'Cena',
-				value: '19.900.000,-Kč',
+				value: data.price + ',-Kč',
 			},
 			{
 				label: 'Plocha',
-				value: '89 m2',
+				value: data.size + 'm2',
 			},
 			{
 				label: 'Koupelny',
-				value: '1',
+				value: data.bathroomCount,
 			},
 			{
 				label: 'Ložnice',
-				value: '1',
+				value: data.bedroomCount,
 			},
 		],
 		[

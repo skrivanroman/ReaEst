@@ -2,21 +2,19 @@
 import Select from 'react-select'
 import { useState } from 'react'
 
-const PropertyDescription = () => {
+const PropertyDescription = ({ updateForm, updateSelect }) => {
 	const catergoryOptions = [
-		{ value: 'Apartments', label: 'Apartments' },
-		{ value: 'Bungalow', label: 'Bungalow' },
-		{ value: 'Houses', label: 'Houses' },
-		{ value: 'Loft', label: 'Loft' },
-		{ value: 'Office', label: 'Office' },
-		{ value: 'Townhome', label: 'Townhome' },
-		{ value: 'Villa', label: 'Villa' },
+		{ value: 'house', label: 'Dům' },
+		{ value: 'flat', label: 'Byt' },
+		{ value: 'office', label: 'Kancelář' },
+		{ value: 'cottage', label: 'Chalupa' },
+		{ value: 'land', label: 'Pozemek' },
+		{ value: 'projekt', label: 'projekt' },
+		{ value: 'other', label: 'ostatní' },
 	]
 	const listedIn = [
-		{ value: 'All Listing', label: 'All Listing' },
-		{ value: 'Active', label: 'Active' },
-		{ value: 'Sold', label: 'Sold' },
-		{ value: 'Processing', label: 'Processing' },
+		{ value: 'rent', label: 'pronájem' },
+		{ value: 'buy', label: 'prodat' },
 	]
 	const PropertyStatus = [
 		{ value: 'All Cities', label: 'All Cities' },
@@ -33,66 +31,39 @@ const PropertyDescription = () => {
 			}
 		},
 	}
-	const [formData, setFormData] = useState({})
-
-	const updateInput = (event) => {
-		setFormData({ ...formData, [event.target.name]: event.target.value })
-	}
-
-	const uploadProperty = async (e) => {
-		e.preventDefault()
-		console.log(new FormData(e.currentTarget))
-		return
-		const response = await fetch('http://localhost:3001/api/property', {
-			method: 'POST',
-			body: JSON.stringify(formData),
-			headers: {
-				'Content-Type': 'application/json',
-			},
-		})
-		const data = await response.text()
-		console.log(data)
-	}
 
 	return (
-		<form className="form-style1" onSubmit={uploadProperty}>
+		<form className="form-style1">
 			<div className="row">
 				<div className="col-sm-12">
 					<div className="mb20">
-						<label className="heading-color ff-heading fw600 mb10">Title</label>
-						<input type="text" name="title" className="form-control" placeholder="Your Name" onChange={updateInput} />
+						<label className="heading-color ff-heading fw600 mb10">Jméno</label>
+						<input type="text" name="title" className="form-control" placeholder="Jméno" onChange={updateForm} />
 					</div>
 				</div>
 				{/* End .col-12 */}
 
 				<div className="col-sm-12">
 					<div className="mb20">
-						<label className="heading-color ff-heading fw600 mb10">Description</label>
-						<textarea
-							cols={30}
-							rows={5}
-							name="description"
-							placeholder="There are many variations of passages."
-							defaultValue={''}
-							onChange={updateInput}
-						/>
+						<label className="heading-color ff-heading fw600 mb10">Popis</label>
+						<textarea cols={30} rows={5} name="description" defaultValue={''} onChange={updateForm} />
 					</div>
 				</div>
 				{/* End .col-6 */}
 
 				<div className="col-sm-6 col-xl-4">
 					<div className="mb20">
-						<label className="heading-color ff-heading fw600 mb10">Select Category</label>
+						<label className="heading-color ff-heading fw600 mb10">Vybrat kategorii</label>
 						<div className="location-area">
 							<Select
 								defaultValue={[catergoryOptions[1]]}
-								name="colors"
+								name="category"
 								options={catergoryOptions}
 								styles={customStyles}
 								className="select-custom pl-0"
 								classNamePrefix="select"
+								onChange={updateSelect}
 								required
-								isMulti
 							/>
 						</div>
 					</div>
@@ -101,17 +72,17 @@ const PropertyDescription = () => {
 
 				<div className="col-sm-6 col-xl-4">
 					<div className="mb20">
-						<label className="heading-color ff-heading fw600 mb10">Listed in</label>
+						<label className="heading-color ff-heading fw600 mb10">Typ</label>
 						<div className="location-area">
 							<Select
 								defaultValue={[listedIn[1]]}
-								name="colors"
+								name="payType"
 								options={listedIn}
 								styles={customStyles}
 								className="select-custom pl-0"
 								classNamePrefix="select"
+								onChange={updateSelect}
 								required
-								isMulti
 							/>
 						</div>
 					</div>
@@ -120,17 +91,17 @@ const PropertyDescription = () => {
 
 				<div className="col-sm-6 col-xl-4">
 					<div className="mb20">
-						<label className="heading-color ff-heading fw600 mb10">Property Status</label>
+						<label className="heading-color ff-heading fw600 mb10">Status</label>
 						<div className="location-area">
 							<Select
 								defaultValue={[PropertyStatus[1]]}
-								name="colors"
+								name="status"
 								options={PropertyStatus}
 								styles={customStyles}
 								className="select-custom pl-0"
 								classNamePrefix="select"
+								onChange={updateSelect}
 								required
-								isMulti
 							/>
 						</div>
 					</div>
@@ -139,28 +110,27 @@ const PropertyDescription = () => {
 
 				<div className="col-sm-6 col-xl-4">
 					<div className="mb30">
-						<label className="heading-color ff-heading fw600 mb10">Price in $</label>
-						<input type="text" name="price" className="form-control" placeholder="Your Name" onChange={updateInput} />
+						<label className="heading-color ff-heading fw600 mb10">Cena v Kč</label>
+						<input type="text" name="price" className="form-control" onChange={updateForm} />
 					</div>
 				</div>
 				{/* End .col-6 */}
 
 				<div className="col-sm-6 col-xl-4">
 					<div className="mb30">
-						<label className="heading-color ff-heading fw600 mb10">Yearly Tax Rate</label>
-						<input type="text" className="form-control" placeholder="Your Name" />
+						<label className="heading-color ff-heading fw600 mb10">Roční daň</label>
+						<input type="text" name="yearlyTax" className="form-control" onChange={updateForm} />
 					</div>
 				</div>
 				{/* End .col-6 */}
 
 				<div className="col-sm-6 col-xl-4">
 					<div className="mb30">
-						<label className="heading-color ff-heading fw600 mb10">After Price Label</label>
-						<input type="text" className="form-control" placeholder="Your Name" />
+						<label className="heading-color ff-heading fw600 mb10">Dodatek k ceně</label>
+						<input type="text" name="afterPrice" className="form-control" onChange={updateForm} />
 					</div>
 				</div>
 				{/* End .col-6 */}
-				<button type="submit">submit</button>
 			</div>
 		</form>
 	)

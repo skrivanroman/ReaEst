@@ -3,23 +3,23 @@
 import listings from '@/data/listings'
 import React from 'react'
 
-const PropertyHeader = ({ id }) => {
-	const data = listings.filter((elm) => elm.id == id)[0] || listings[0]
+const PropertyHeader = ({ id, data }) => {
+	//const data = listings.filter((elm) => elm.id == id)[0] || listings[0]
 	return (
 		<>
 			<div className="col-lg-8">
 				<div className="single-property-content mb30-md">
 					<h2 className="sp-lg-title">{data.title}</h2>
 					<div className="pd-meta mb15 d-md-flex align-items-center">
-						<p className="text fz15 mb-0 bdrr1 pr10 bdrrn-sm">{data.location}</p>
+						<p className="text fz15 mb-0 bdrr1 pr10 bdrrn-sm">{data.country}</p>
 						<a className="ff-heading text-thm fz15 bdrr1 pr10 ml0-sm ml10 bdrrn-sm" href="#">
 							<i className="fas fa-circle fz10 pe-2" />
-							Na {data.forRent ? 'pronájem' : 'prodej'}
+							Na {data.payType === 'rent' ? 'pronájem' : 'prodej'}
 						</a>
 						<a className="ff-heading bdrr1 fz15 pr10 ml10 ml0-sm bdrrn-sm" href="#">
 							<i className="far fa-clock pe-2" />
 							před&nbsp;
-							{Number(new Date().getFullYear()) - Number(data.yearPublished)} lety
+							{Number(new Date().getFullYear()) - Number(new Date(data.availableFrom).getFullYear())} lety
 						</a>
 						<a className="ff-heading ml10 ml0-sm fz15" href="#">
 							<i className="flaticon-fullscreen pe-2 align-text-top" />
@@ -29,15 +29,15 @@ const PropertyHeader = ({ id }) => {
 					<div className="property-meta d-flex align-items-center">
 						<a className="text fz15" href="#">
 							<i className="flaticon-bed pe-2 align-text-top" />
-							{data.bed} Ložnice
+							{data.bedroomCount} Ložnice
 						</a>
 						<a className="text ml20 fz15" href="#">
 							<i className="flaticon-shower pe-2 align-text-top" />
-							{data.bath} koupelna
+							{data.bathroomCount} koupelna
 						</a>
 						<a className="text ml20 fz15" href="#">
 							<i className="flaticon-expand pe-2 align-text-top" />
-							{data.sqft} m&sup2;
+							{data.size} m&sup2;
 						</a>
 					</div>
 				</div>
@@ -63,7 +63,8 @@ const PropertyHeader = ({ id }) => {
 						</div>
 						<h3 className="price mb-0">{data.price}</h3>
 						<p className="text space fz15">
-							{(Number(data.price.split(',')[0].split('.').join('')) / data.sqft).toFixed(2)},-Kč / m&sup2;
+							{data.price / data.size /*(Number(data.price.split(',')[0].split('.').join('')) / data.sqft).toFixed(2)*/}
+							,-Kč / m&sup2;
 						</p>
 					</div>
 				</div>

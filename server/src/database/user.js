@@ -25,6 +25,9 @@ const User = sequelize.define(
 				key: 'login_option_id',
 			},
 		},
+		uuid: {
+			type: DataTypes.STRING,
+		},
 		firstName: {
 			type: DataTypes.STRING,
 			allowNull: false,
@@ -50,7 +53,7 @@ const User = sequelize.define(
 		},
 		profilePicturePath: {
 			type: DataTypes.STRING,
-			defaultValue: './defaultPath',
+			defaultValue: 'defaultAgent/ludek.jpg',
 		},
 		facebookUrl: {
 			type: DataTypes.STRING,
@@ -88,6 +91,9 @@ const User = sequelize.define(
 		houseNumber: {
 			type: DataTypes.STRING,
 		},
+		description: {
+			type: DataTypes.STRING,
+		},
 	},
 	{ underscored: true }
 )
@@ -96,7 +102,7 @@ LoginOption.hasMany(User, {
 	foreignKey: 'fk_login_option_id',
 })
 
-await User.sync({ force: false })
+await User.sync({ alter: false })
 
 User.register = async (email, password, loginOption, firstName, lastName) => {
 	try {

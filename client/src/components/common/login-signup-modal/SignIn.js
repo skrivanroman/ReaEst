@@ -1,18 +1,22 @@
+'use client'
 import Link from 'next/link'
 import React, { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { GoogleLogin, GoogleLogout } from 'react-google-login'
-import { gapi } from 'gapi-script'
+//import { GoogleLogin, GoogleLogout } from 'react-google-login'
+//import { gapi } from 'gapi-script'
 
 const SignIn = () => {
+	/*
 	useEffect(() => {
 		gapi.load('client:auth2', () => {
 			gapi.client.init({
 				clientId: '770073812767-m2bn3m478h9qfshj748mt23dgg4a07p1.apps.googleusercontent.com',
+				scope: 'profile email',
 			})
 		})
 	}, [])
-	const [formData, setFormData] = useState({ userName: '', password: '' })
+	*/
+	const [formData, setFormData] = useState({ email: '', password: '' })
 	const router = useRouter()
 
 	const updateInput = (event) => {
@@ -21,16 +25,19 @@ const SignIn = () => {
 	const loginUser = async (event) => {
 		event.preventDefault()
 
-		const response = await fetch('http://localhost:3001/api/login', {
+		const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/login`, {
 			method: 'POST',
 			body: JSON.stringify(formData),
+			credentials: 'include',
 			headers: {
 				'Content-Type': 'application/json',
 			},
 		})
-		const data = await response.text()
-		console.log(data)
-		if (data === 'login sucess') router.push('/dashboard-home')
+		if (response.ok) {
+			router.push('/dashboard-home')
+		} else {
+			console.log(response.status)
+		}
 	}
 	return (
 		<form className="form-style1" onSubmit={loginUser}>
@@ -38,7 +45,7 @@ const SignIn = () => {
 				<label className="form-label fw600 dark-color">Email</label>
 				<input
 					type="email"
-					name="userName"
+					name="email"
 					className="form-control"
 					placeholder="Zadejte email"
 					onChange={updateInput}
@@ -84,8 +91,8 @@ const SignIn = () => {
 				<span className="hr_top_text">Nebo</span>
 			</div>
 
-			<div className="d-grid mb10">
-				<GoogleLogin
+			{/*							<div className="d-grid mb10">
+<GoogleLogin
 					clientId="770073812767-m2bn3m478h9qfshj748mt23dgg4a07p1.apps.googleusercontent.com"
 					render={(renderProps) => (
 						<button
@@ -115,6 +122,7 @@ const SignIn = () => {
 					console.log('loged out')
 				}}
 			></GoogleLogout>
+*/}
 			<div className="d-grid mb10">
 				<button className="ud-btn btn-fb" type="button">
 					<i className="fab fa-facebook-f" /> Pokračovat přes Facebook

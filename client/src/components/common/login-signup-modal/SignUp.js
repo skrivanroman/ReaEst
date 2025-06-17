@@ -22,7 +22,7 @@ const SignUp = () => {
 		passwordCheckRef.current.style.visibility = 'hidden'
 
 		const reqBody = { email, password, loginOption: 'password', firstName: 'johan', lastName: 'libert' }
-		const response = await fetch('http://localhost:3001/api/register', {
+		const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/register`, {
 			method: 'POST',
 			credentials: 'include',
 			body: JSON.stringify(reqBody),

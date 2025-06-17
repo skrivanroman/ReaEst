@@ -2,15 +2,13 @@ import agents from '@/data/agents'
 import Image from 'next/image'
 import React from 'react'
 
-const SingleAgentCta = ({ id }) => {
-	const data = agents.filter((elm) => elm.id == id)[0] || agents[0]
-
+const SingleAgentCta = ({ id, data }) => {
 	const agentData = {
-		name: 'Luděk Dronski',
+		name: `${data.firstName} ${data.lastName}`,
 		company: 'Modern House Real Estate',
 		reviews: '5.0 • 49 Reviews',
 		phone1: '+848 032 03 01',
-		phone2: '+420 774 143 142',
+		phone2: data.phone,
 		social: [
 			{ icon: 'fab fa-facebook-f', link: '#' },
 			{ icon: 'fab fa-twitter', link: '#' },
@@ -26,7 +24,7 @@ const SingleAgentCta = ({ id }) => {
 						width={172}
 						height={172}
 						style={{ borderRadius: '50%', objectFit: 'cover' }}
-						src="/images/agent/ludek2.jpg"
+						src={`${process.env.NEXT_PUBLIC_API_BASE_URL}/${data.profilePicturePath}`}
 						alt="agents"
 					/>
 				</div>

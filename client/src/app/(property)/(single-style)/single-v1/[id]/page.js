@@ -1,4 +1,4 @@
-// "use client";
+'use client'
 import DefaultHeader from '@/components/common/DefaultHeader'
 import Footer from '@/components/common/default-footer'
 import MobileMenu from '@/components/common/mobile-menu'
@@ -22,15 +22,26 @@ import AllReviews from '@/components/property/property-single-style/common/revie
 import ContactWithAgent from '@/components/property/property-single-style/sidebar/ContactWithAgent'
 import ScheduleTour from '@/components/property/property-single-style/sidebar/ScheduleTour'
 import PropertyGallery from '@/components/property/property-single-style/single-v1/PropertyGallery'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import MortgageCalculator from '@/components/property/property-single-style/common/MortgageCalculator'
 import WalkScore from '@/components/property/property-single-style/common/WalkScore'
 
-export const metadata = {
+/*export const metadata = {
 	title: 'Property Single V1 || Homez - Real Estate NextJS Template',
-}
+}*/
 
 const SingleV1 = ({ params }) => {
+	const [propertyData, setPropertyData] = useState({})
+	useEffect(() => {
+		const fetchPropertyData = async () => {
+			const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/property/${params.id}`)
+			const data = await response.json()
+			console.log(data)
+			const { uuid, ...user } = data.user
+			setPropertyData({ ...data.property, ...user, userId: uuid })
+		}
+		fetchPropertyData()
+	}, [])
 	return (
 		<>
 			{/* Main Header Nav */}
@@ -45,12 +56,16 @@ const SingleV1 = ({ params }) => {
 			<section className="pt60 pb90 bgc-f7">
 				<div className="container">
 					<div className="row">
-						<PropertyHeader id={params.id} />
+						<PropertyHeader id={params.id} data={propertyData} />
 					</div>
 					{/* End .row */}
 
 					<div className="row mb30 mt30">
-						<PropertyGallery id={params.id} />
+						<PropertyGallery
+							id={params.id}
+							images={propertyData.images || []}
+							imagesCount={propertyData.imagesCount || 0}
+						/>
 					</div>
 					{/* End .row */}
 
@@ -59,19 +74,19 @@ const SingleV1 = ({ params }) => {
 							<div className="ps-widget bgc-white bdrs12 default-box-shadow2 p30 mb30 overflow-hidden position-relative">
 								<h4 className="title fz17 mb30">Přehled</h4>
 								<div className="row">
-									<OverView />
+									<OverView data={propertyData} />
 								</div>
 							</div>
 							{/* End .ps-widget */}
 
 							<div className="ps-widget bgc-white bdrs12 default-box-shadow2 p30 mb30 overflow-hidden position-relative">
 								<h4 className="title fz17 mb30">Popis</h4>
-								<ProperytyDescriptions />
+								<ProperytyDescriptions description={propertyData.description} />
 								{/* End property description */}
 
 								<h4 className="title fz17 mb30 mt50">Detaily</h4>
 								<div className="row">
-									<PropertyDetails />
+									<PropertyDetails data={propertyData} />
 								</div>
 							</div>
 							{/* End .ps-widget */}
@@ -79,7 +94,7 @@ const SingleV1 = ({ params }) => {
 							<div className="ps-widget bgc-white bdrs12 default-box-shadow2 p30 mb30 overflow-hidden position-relative">
 								<h4 className="title fz17 mb30 mt30">Adresa</h4>
 								<div className="row">
-									<PropertyAddress />
+									<PropertyAddress data={propertyData} />
 								</div>
 							</div>
 							{/* End .ps-widget */}
@@ -100,18 +115,6 @@ const SingleV1 = ({ params }) => {
 							</div>
 							{/* End .ps-widget */}
 
-							<div className="ps-widget bgc-white bdrs12 default-box-shadow2 p30 mb30 overflow-hidden position-relative">
-								<h4 className="title fz17 mb30">Floor Plans</h4>
-								<div className="row">
-									<div className="col-md-12">
-										<div className="accordion-style1 style2">
-											<FloorPlans />
-										</div>
-									</div>
-								</div>
-							</div>
-							{/* End .ps-widget */}
-
 							<div className="ps-widget bgc-white bdrs12 default-box-shadow2 p30 mb30 ">
 								<h4 className="title fz17 mb30">Video</h4>
 								<div className="row">
@@ -120,77 +123,34 @@ const SingleV1 = ({ params }) => {
 							</div>
 							{/* End .ps-widget */}
 
-							<div className="ps-widget bgc-white bdrs12 default-box-shadow2 p30 mb30 overflow-hidden position-relative">
-								<h4 className="title fz17 mb30">360° Virtual Tour</h4>
-								<div className="row">
-									<VirtualTour360 />
-								</div>
-							</div>
-							{/* End .ps-widget */}
-
-							<div className="ps-widget bgc-white bdrs12 default-box-shadow2 p30 mb30 overflow-hidden position-relative">
-								<h4 className="title fz17 mb30">Lokalita{/*What&apos;s Nearby?*/}</h4>
+							{/*<div className="ps-widget bgc-white bdrs12 default-box-shadow2 p30 mb30 overflow-hidden position-relative">
+								<h4 className="title fz17 mb30">Lokalita{What&apos;s Nearby?}</h4>
 								<div className="row">
 									<PropertyNearby />
 								</div>
-							</div>
+							</div>*/}
 							{/* End .ps-widget */}
 
 							<div className="ps-widget bgc-white bdrs12 default-box-shadow2 p30 mb30 overflow-hidden position-relative">
-								<h4 className="title fz17 mb30">Walkscore</h4>
-								<div className="row">
-									<div className="col-md-12">
-										<h4 className="fw400 mb20">10425 Tabor St Los Angeles CA 90034 USA</h4>
-										<WalkScore />
-									</div>
-								</div>
+								<h4 className="title fz17 mb30">Dozvěďte se více</h4>
+								<InfoWithForm data={propertyData} />
 							</div>
 							{/* End .ps-widget */}
 
-							<div className="ps-widget bgc-white bdrs12 default-box-shadow2 p30 mb30 overflow-hidden position-relative">
-								<h4 className="title fz17 mb30">Mortgage Calculator</h4>
-								<div className="row">
-									<MortgageCalculator />
-								</div>
-							</div>
-							{/* End .ps-widget */}
-
+							{/*
 							<div className="ps-widget bgc-white bdrs12 default-box-shadow2 p30 mb30 overflow-hidden position-relative">
 								<div className="row">
-									<PropertyViews />
-								</div>
-							</div>
-							{/* End .ps-widget */}
-
-							<div className="ps-widget bgc-white bdrs12 default-box-shadow2 p30 mb30 overflow-hidden position-relative">
-								<h4 className="title fz17 mb30">Home Value</h4>
-								<div className="row">
-									<HomeValueChart />
-								</div>
-							</div>
-							{/* End .ps-widget */}
-
-							<div className="ps-widget bgc-white bdrs12 default-box-shadow2 p30 mb30 overflow-hidden position-relative">
-								<h4 className="title fz17 mb30">Get More Information</h4>
-								<InfoWithForm />
-							</div>
-							{/* End .ps-widget */}
-
-							<div className="ps-widget bgc-white bdrs12 default-box-shadow2 p30 mb30 overflow-hidden position-relative">
-								<div className="row">
-									{/* <AllComments /> */}
 									<AllReviews />
 								</div>
 							</div>
-							{/* End .ps-widget */}
 
 							<div className="ps-widget bgc-white bdrs12 default-box-shadow2 p30 mb30 overflow-hidden position-relative">
-								<h4 className="title fz17 mb30">Leave A Review</h4>
+								<h4 className="title fz17 mb30">Hodnocení</h4>
 								<div className="row">
 									<ReviewBoxForm />
 								</div>
 							</div>
-							{/* End .ps-widget */}
+						 */}
 						</div>
 						{/* End .col-8 */}
 
@@ -206,7 +166,7 @@ const SingleV1 = ({ params }) => {
 								<div className="agen-personal-info position-relative bgc-white default-box-shadow1 bdrs12 p30 mt30">
 									<div className="widget-wrapper mb-0">
 										<h6 className="title fz17 mb30">Máte dotaz?</h6>
-										<ContactWithAgent />
+										<ContactWithAgent data={propertyData} />
 									</div>
 								</div>
 							</div>
@@ -217,8 +177,8 @@ const SingleV1 = ({ params }) => {
 					<div className="row mt30 align-items-center justify-content-between">
 						<div className="col-auto">
 							<div className="main-title">
-								<h2 className="title">Discover Our Featured Listings</h2>
-								<p className="paragraph">Aliquam lacinia diam quis lacus euismod</p>
+								<h2 className="title">Podobné inzeráty</h2>
+								<p className="paragraph"></p>
 							</div>
 						</div>
 						{/* End header */}
