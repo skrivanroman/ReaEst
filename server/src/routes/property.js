@@ -180,11 +180,13 @@ propertyRouter.post('/property', validateReq(propertyPostSchema), async (req, re
 			const imageData = image.replace(/^data:image\/\w+;base64,/, '')
 
 			//const imageData = image
-			if (index !== 0)
+			if (index > 0 && index < 5) {
 				sharp(Buffer.from(imageData, 'base64'))
-					.resize(250, 270, { kernel: sharp.kernel.lanczos3 })
+					.resize(250, 250, { kernel: sharp.kernel.lanczos3 })
 					.jpeg()
 					.toFile(path.join(imageFolderPath, `${index}-thumb.jpg`))
+			}
+
 			return fs.writeFile(path.join(imageFolderPath, `${index}.${'jpg'}`), Buffer.from(imageData, 'base64'))
 		})
 		await Promise.all(waitFor)

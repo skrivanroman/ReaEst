@@ -15,7 +15,7 @@ const Footer = () => {
 					<div className="col-lg-5">
 						<div className="footer-widget mb-4 mb-lg-5">
 							<Link className="footer-logo" href="/">
-								<Image width={138} height={44} className="mb40" src="/images/header-logo.svg" alt="" />
+								<Image width={50} height={50} className="mb40" src="/images/logo.jpeg" alt="" />
 							</Link>
 							<ContactMeta />
 							{/*<AppWidget />*/}

@@ -11,24 +11,28 @@ const ExploreCities = () => {
 			id: 1,
 			name: 'Praha',
 			image: '/images/cities/foto-Praha.jpg',
+			href: 'Praha',
 			number: 12,
 		},
 		{
 			id: 2,
 			name: 'Ostrava',
 			image: '/images/cities/foto-Ostrava.jpg',
+			href: 'Ostrava',
 			number: 8,
 		},
 		{
 			id: 3,
 			name: 'Vídeň',
 			image: '/images/cities/foto-Wien.jpg',
+			href: 'Viden',
 			number: 15,
 		},
 		{
 			id: 4,
 			name: 'Rovinij',
 			image: '/images/cities/foto-rovinj.jpg',
+			href: 'Rovinij',
 			number: 10,
 		},
 		// Add more cities if needed
@@ -65,7 +69,7 @@ const ExploreCities = () => {
 				{cities.map((city) => (
 					<SwiperSlide key={city.id}>
 						<div className="item">
-							<Link href="/header-map-style">
+							<Link href={`/grid-full-3-col?city=${city.href}`}>
 								<div className="feature-style2 mb30">
 									<div className="feature-img">
 										<Image
@@ -78,7 +82,7 @@ const ExploreCities = () => {
 									</div>
 									<div className="feature-content pt20">
 										<h6 className="title mb-1">{city.name}</h6>
-										<p className="text fz15">{city.number} Properties</p>
+										<p className="text fz15">{city.number} inzerátů</p>
 									</div>
 								</div>
 							</Link>
