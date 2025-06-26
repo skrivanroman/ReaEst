@@ -8,7 +8,7 @@ const validateReq = (schema) => {
 			next()
 		} catch (err) {
 			console.log(err)
-			res.sendStatus(403)
+			res.sendStatus(400)
 		}
 	}
 }

@@ -34,8 +34,8 @@ const registerSchema = Joi.object({
 	email: Joi.string().email().max(255).required(),
 	password: Joi.string().alphanum().max(255),
 	loginOption: Joi.string().allow('google', 'password').required(),
-	firstName: Joi.string().alphanum().max(255),
-	lastName: Joi.string().alphanum().max(255),
+	firstName: Joi.string().max(255),
+	lastName: Joi.string().max(255),
 })
 
 loginRouter.post('/register', validateReq(registerSchema), async (req, res) => {
