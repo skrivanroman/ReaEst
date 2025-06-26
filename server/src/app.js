@@ -10,7 +10,19 @@ import { fileURLToPath } from 'url'
 const app = express()
 const port = 3001
 
-app.use(cors({ origin: 'http://localhost:3000', credentials: true }))
+const allowedOrigins = ['http://localhost:3000', 'https://reaest.com']
+
+app.use(
+	cors({
+		origin: (origin, callback) => {
+			if (!origin || allowedOrigins.includes(origin)) {
+				return callback(null, true)
+			}
+			return callback(new Error(`Origin ${origin} not allowed by CORS`))
+		},
+		credentials: true,
+	})
+)
 app.use(cookieParser())
 app.use(express.json({ limit: '200mb' }))
 
