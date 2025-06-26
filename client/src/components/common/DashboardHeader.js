@@ -80,7 +80,7 @@ const DashboardHeader = () => {
 								<div className="text-center text-lg-start d-flex align-items-center">
 									<div className="dashboard_header_logo position-relative me-2 me-xl-5">
 										<Link className="logo" href="/">
-											<Image width={50} height={50} src="/images/logo.jpeg" alt="Header Logo" />
+											<Image width={70} height={70} src="/images/logo.jpeg" alt="Header Logo" />
 										</Link>
 									</div>
 									{/* End Logo */}

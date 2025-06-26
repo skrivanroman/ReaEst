@@ -174,7 +174,7 @@ propertyRouter.post('/property', validateReq(propertyPostSchema), async (req, re
 
 		const waitFor = req.body.images?.map((image, index) => {
 			const format = image.match(/^data:image\/(\w+);base64,/)[1]?.toLowerCase()
-			if (!['jpg', 'jpeg', 'png', 'webp'].includes(format)) {
+			if (!['jpg', 'jpeg', 'png', 'webp', 'heif', 'heic'].includes(format)) {
 				throw new Error('Unsuported image format at /api/property')
 			}
 			const imageData = image.replace(/^data:image\/\w+;base64,/, '')

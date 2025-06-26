@@ -3,7 +3,7 @@ import Link from 'next/link'
 import React from 'react'
 
 const ContactWithAgent = ({ data }) => {
-	const profileImage = `${process.env.NEXT_PUBLIC_API_BASE_URL}/${data.profilePicturePath}`
+	const profileImage = `${process.env.NEXT_PUBLIC_IMAGE_BASE_URL}/${data.profilePicturePath}`
 	return (
 		<>
 			<div className="agent-single d-sm-flex align-items-center pb25">

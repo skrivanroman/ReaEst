@@ -13,7 +13,7 @@ const ListingItems = ({ data }) => {
 								width={382}
 								height={248}
 								className="w-100 h-100 cover"
-								src={`${process.env.NEXT_PUBLIC_API_BASE_URL}/properties/${listing.uuid}/0.jpg`}
+								src={`${process.env.NEXT_PUBLIC_IMAGE_BASE_URL}/properties/${listing.uuid}/0.jpg`}
 								alt="listings"
 							/>
 							<div className="sale-sticker-wrap">

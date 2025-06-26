@@ -32,13 +32,20 @@ const Property = sequelize.define(
 		},
 		category: {
 			type: DataTypes.STRING,
-			allowNull: true,
+			allowNull: false,
+			validate: {
+				isIn: [['house', 'flat', 'cottage', 'office', 'land', 'projekt', 'other']],
+			},
 		},
 		price: {
 			type: DataTypes.INTEGER,
 		},
 		payType: {
 			type: DataTypes.STRING,
+			allowNull: false,
+			validate: {
+				isIn: [['buy', 'rent']],
+			},
 		},
 		status: {
 			type: DataTypes.STRING,

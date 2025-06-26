@@ -9,7 +9,7 @@ const SingleAgentInfo = ({ data }) => {
 		socialMedia: ['facebook', 'twitter', 'instagram', 'linkedin'],
 	}
 
-	const profileImage = `${process.env.NEXT_PUBLIC_API_BASE_URL}/${data.profilePicturePath}`
+	const profileImage = `${process.env.NEXT_PUBLIC_IMAGE_BASE_URL}/${data.profilePicturePath}`
 	return (
 		<div className="agent-single d-sm-flex align-items-center bdrb1 mb30 pb25">
 			<div className="single-img mb30-sm">

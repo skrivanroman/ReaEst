@@ -15,7 +15,7 @@ const FeaturedListings = ({ data, colstyle }) => {
 								height={248}
 								className="w-100  cover"
 								style={{ height: '230px' }}
-								src={`${process.env.NEXT_PUBLIC_API_BASE_URL}/properties/${listing.uuid}/0.jpg`}
+								src={`${process.env.NEXT_PUBLIC_IMAGE_BASE_URL}/properties/${listing.uuid}/0.jpg`}
 								alt="listings"
 							/>
 							<div className="sale-sticker-wrap">

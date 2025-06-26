@@ -24,7 +24,7 @@ const SingleAgentCta = ({ id, data }) => {
 						width={172}
 						height={172}
 						style={{ borderRadius: '50%', objectFit: 'cover' }}
-						src={`${process.env.NEXT_PUBLIC_API_BASE_URL}/${data.profilePicturePath}`}
+						src={`${process.env.NEXT_PUBLIC_IMAGE_BASE_URL}/${data.profilePicturePath}`}
 						alt="agents"
 					/>
 				</div>

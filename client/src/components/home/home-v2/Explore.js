@@ -11,13 +11,13 @@ const Explore = () => {
 		},
 		{
 			icon: '/images/icon/property-sell-2.svg',
-			title: 'Prodat',
+			title: 'Pronajmout',
 			text: '',
 			linkText: 'Přidat inzerát',
 		},
 		{
 			icon: '/images/icon/property-rent-2.svg',
-			title: 'Pronajmout',
+			title: 'Prodat',
 			text: '',
 			linkText: 'Prohlédnout nabídky',
 		},

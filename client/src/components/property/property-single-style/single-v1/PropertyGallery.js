@@ -8,9 +8,9 @@ const PropertyGallery = ({ id, imagesCount }) => {
 	const images = []
 	for (let i = 0; i < imagesCount; i++) {
 		images.push({
-			src: `${process.env.NEXT_PUBLIC_API_BASE_URL}/properties/${id}/${i}.jpg`,
+			src: `${process.env.NEXT_PUBLIC_IMAGE_BASE_URL}/properties/${id}/${i}.jpg`,
 			alt: `img${i}.jpg`,
-			thumb: `${process.env.NEXT_PUBLIC_API_BASE_URL}/properties/${id}/${i}-thumb.jpg`,
+			thumb: `${process.env.NEXT_PUBLIC_IMAGE_BASE_URL}/properties/${id}/${i}-thumb.jpg`,
 		})
 	}
 	return (

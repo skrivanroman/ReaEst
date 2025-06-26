@@ -35,6 +35,8 @@ const SignIn = () => {
 		})
 		if (response.ok) {
 			router.push('/dashboard-home')
+			document.body.classList.remove('modal-open')
+			document.querySelectorAll('.modal-backdrop').forEach((el) => el.remove())
 		} else {
 			console.log(response.status)
 		}

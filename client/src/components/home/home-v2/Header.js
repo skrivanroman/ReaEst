@@ -37,10 +37,10 @@ const Header = () => {
 								<div className="d-flex align-items-center justify-content-between">
 									<div className="logos mr40">
 										<Link className="header-logo logo1" href="/">
-											<Image width={55} height={55} src="/images/logo.jpeg" alt="Header Logo" />
+											<Image width={70} height={70} src="/images/logo-dark.jpg" alt="Header Logo" />
 										</Link>
 										<Link className="header-logo logo2" href="/">
-											<Image width={55} height={55} src="/images/logo.jpeg" alt="Header Logo" />
+											<Image width={70} height={70} src="/images/logo.jpeg" alt="Header Logo" />
 										</Link>
 									</div>
 									{/* End Logo */}

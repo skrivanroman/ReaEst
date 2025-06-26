@@ -21,7 +21,7 @@ const SignUp = () => {
 		}
 		passwordCheckRef.current.style.visibility = 'hidden'
 
-		const reqBody = { email, password, loginOption: 'password', firstName: 'johan', lastName: 'libert' }
+		const reqBody = { email, password, loginOption: 'password', firstName: 'Luděk', lastName: 'Dronski' }
 		const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/register`, {
 			method: 'POST',
 			credentials: 'include',
@@ -32,6 +32,8 @@ const SignUp = () => {
 		})
 		if (response.ok) {
 			router.push('/dashboard-home')
+			document.body.classList.remove('modal-open')
+			document.querySelectorAll('.modal-backdrop').forEach((el) => el.remove())
 		} else {
 			console.log(response.status)
 		}
