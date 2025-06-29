@@ -182,7 +182,7 @@ propertyRouter.post('/property', validateReq(propertyPostSchema), async (req, re
 			//const imageData = image
 			if (index > 0 && index < 5) {
 				sharp(Buffer.from(imageData, 'base64'))
-					.resize(250, 250, { kernel: sharp.kernel.lanczos3 })
+					.resize(270, 250, { kernel: sharp.kernel.lanczos3 })
 					.jpeg()
 					.toFile(path.join(imageFolderPath, `${index}-thumb.jpg`))
 			}
