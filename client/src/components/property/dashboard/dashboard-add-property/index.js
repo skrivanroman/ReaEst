@@ -27,6 +27,8 @@ const AddPropertyTabContent = () => {
 			//setFormState({})
 		} else {
 			console.log('Failed to upload property')
+			console.log(response)
+			console.log(reqBody)
 		}
 	}
 
