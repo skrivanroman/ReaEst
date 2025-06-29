@@ -135,7 +135,6 @@ const AddPropertyTabContent = () => {
 					</div>
 				</div>
 				{/* End tab for Listing Details */}
-
 				<div className="tab-pane fade" id="nav-item5" role="tabpanel" aria-labelledby="nav-item5-tab">
 					<div className="ps-widget bgc-white bdrs12 p30 overflow-hidden position-relative">
 						<h4 className="title fz17 mb30">Vybavení nemovitosti</h4>
@@ -144,7 +143,7 @@ const AddPropertyTabContent = () => {
 						</div>
 					</div>
 				</div>
-				{/* End tab for Select Amenities */}
+				{/*	 End tab for Select Amenities */}
 			</div>
 			<button onClick={uploadProperty}>Přidat</button>
 		</>

@@ -8,6 +8,7 @@ const SingleAgentCta = ({ id, data }) => {
 		company: 'Modern House Real Estate',
 		reviews: '5.0 • 49 Reviews',
 		phone1: '+848 032 03 01',
+		email: data.email,
 		phone2: data.phone,
 		social: [
 			{ icon: 'fab fa-facebook-f', link: '#' },

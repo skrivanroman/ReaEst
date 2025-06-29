@@ -27,10 +27,15 @@ const About = () => {
 							alt="about"
 						/>
 					</div>
+					<video height={640 * 1.3} width={360 * 1.3} controls preload="none">
+						<source src="/video/home.mp4" type="video/mp4" />
+					</video>
 					<VideoBox />
+					{/*
 					<div className="img-box-10 position-relative">
 						<ProductSingle />
 					</div>
+					*/}
 				</div>
 			</div>
 			{/* End col */}

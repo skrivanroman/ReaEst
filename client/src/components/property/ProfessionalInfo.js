@@ -1,15 +1,16 @@
 import React from 'react'
 
 const professionalInfoData = [
+	{ label: 'Email', content: null },
 	{ label: 'Adresa', content: 'House on the Northridge' },
 	{ label: 'Kancelář', content: '+848 032 03 01' },
 	{ label: 'Mobil', content: '+420 774 143 142' },
-	{ label: 'Fax', content: '(484) 524-1023' },
-	{ label: 'Stránky', content: 'www.realton.com' },
-	{ label: 'Členem od', content: '10-01-2022' },
+	{ label: 'Stránky', content: 'www.reaest.com' },
+	{ label: 'Členem od', content: '1-12-2024' },
 ]
 
-const ProfessionalInfo = () => {
+const ProfessionalInfo = ({ email }) => {
+	professionalInfoData[0].content = email
 	return (
 		<div className="widget-wrapper mb-0">
 			<h6 className="title fz17 mb35">Informace</h6>

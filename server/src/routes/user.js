@@ -7,7 +7,7 @@ const userRouter = express.Router()
 userRouter.get('/user/:id', async (req, res) => {
 	try {
 		const user = await User.findOne({
-			attributes: ['firstName', 'lastName', 'phone', 'profilePicturePath', 'description', 'uuid'],
+			attributes: ['firstName', 'lastName', 'phone', 'profilePicturePath', 'description', 'uuid', 'email'],
 			where: { uuid: req.params.id },
 		})
 		if (!user) {

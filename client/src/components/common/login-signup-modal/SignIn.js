@@ -37,6 +37,7 @@ const SignIn = () => {
 			router.push('/dashboard-home')
 			document.body.classList.remove('modal-open')
 			document.querySelectorAll('.modal-backdrop').forEach((el) => el.remove())
+			document.body.style.overflow = 'auto'
 		} else {
 			console.log(response.status)
 		}

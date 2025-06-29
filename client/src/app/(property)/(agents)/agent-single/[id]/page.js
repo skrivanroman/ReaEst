@@ -148,7 +148,7 @@ const AgentSingle = ({ params }) => {
 								<FormContact />
 							</div>
 							<div className="agen-personal-info position-relative bgc-white default-box-shadow1 bdrs12 p30 mt30">
-								<ProfessionalInfo />
+								<ProfessionalInfo email={userData.email} />
 							</div>
 						</div>
 						{/* End .col-lg-4 */}
