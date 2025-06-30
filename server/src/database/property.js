@@ -1,9 +1,10 @@
 import { DataTypes } from 'sequelize'
 import sequelize from './connection.js'
 import User from './user.js'
+import Image from './image.js'
 
 const Property = sequelize.define(
-	'Proterty',
+	'Property',
 	{
 		propertyId: {
 			type: DataTypes.INTEGER,
@@ -122,6 +123,11 @@ Property.belongsTo(User, {
 	foreignKey: 'fk_user_id',
 })
 
-await Property.sync({ alter: false })
+await Property.sync({ alter: true })
+
+Property.hasMany(Image)
+Image.belongsTo(Property)
+
+await Image.sync({ alter: true })
 
 export default Property

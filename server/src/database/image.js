@@ -1,4 +1,4 @@
-import sequelize from './connection'
+import sequelize from './connection.js'
 import { DataTypes } from 'sequelize'
 
 const Image = sequelize.define(
@@ -24,7 +24,7 @@ const Image = sequelize.define(
 		},
 		format: {
 			type: DataTypes.STRING(4),
-			defaultValue: 'jpeg',
+			defaultValue: 'jpg',
 			vallidate: {
 				isIn: [['jpg', 'jpeg', 'png', 'webp', 'heif', 'heic']],
 			},
@@ -32,7 +32,5 @@ const Image = sequelize.define(
 	},
 	{ underscored: true }
 )
-
-await Image.sync({ alter: true })
 
 export default Image

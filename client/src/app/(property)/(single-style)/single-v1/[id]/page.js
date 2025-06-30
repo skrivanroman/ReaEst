@@ -63,7 +63,7 @@ const SingleV1 = ({ params }) => {
 					<div className="row mb30 mt30">
 						<PropertyGallery
 							id={params.id}
-							images={propertyData.images || []}
+							photos={propertyData.images || []}
 							imagesCount={propertyData.imagesCount || 0}
 						/>
 					</div>

@@ -1,22 +1,25 @@
 import { Tooltip as ReactTooltip } from 'react-tooltip'
-import React, { useState, useRef, useMemo } from 'react'
+import React, { useEffect, useRef, useMemo } from 'react'
 import Image from 'next/image'
 
-const UploadPhotoGallery = ({ uploadedImages, setUploadedImages }) => {
+const UploadPhotoGallery = ({ uploadedImages, setUploadedImages, uploadedImagesSize, setUploadedImagesSize }) => {
 	const fileInputRef = useRef(null)
 
 	const handleUpload = (files) => {
-		//const newImages = [...uploadedImages]
-		console.log('upload image !!!!')
+		const newImages = Array.from(files).map((file) => ({
+			file,
+			previewUrl: URL.createObjectURL(file),
+		}))
+		const newSize = newImages.reduce((acc, { file }) => acc + file.size, 0)
+		const updatedSize = uploadedImagesSize.size + newSize
 
-		for (const file of files) {
-			const reader = new FileReader()
-			reader.onload = (e) => {
-				//newImages.push(e.target.result)
-				setUploadedImages((old) => [...old, e.target.result])
-			}
-			reader.readAsDataURL(file)
+		if (updatedSize > parseInt(process.env.NEXT_PUBLIC_MAX_IMAGE_UPLOAD_MB) * 1024 * 1024) {
+			setUploadedImagesSize({ size: updatedSize, error: true })
+			return
 		}
+
+		setUploadedImages((prev) => [...prev, ...newImages])
+		setUploadedImagesSize({ size: updatedSize, error: false })
 	}
 
 	const handleDrop = (event) => {
@@ -30,16 +33,22 @@ const UploadPhotoGallery = ({ uploadedImages, setUploadedImages }) => {
 	}
 
 	const handleButtonClick = () => {
-		// Programmatically trigger the hidden file input
 		fileInputRef.current.click()
 	}
 
 	const handleDelete = (index) => {
+		URL.revokeObjectURL(uploadedImages[index].reviewUrl)
+		setUploadedImagesSize((prev) => ({ size: prev.size - (uploadedImages[index].file.size || 0), error: prev.error }))
 		const newImages = [...uploadedImages]
 		newImages.splice(index, 1)
-		console.log('delete image!!!!')
 		setUploadedImages(newImages)
 	}
+
+	useEffect(() => {
+		return () => {
+			uploadedImages.forEach((img) => URL.revokeObjectURL(img.previewUrl))
+		}
+	}, [])
 
 	const jsx = useMemo(
 		() => (
@@ -76,7 +85,7 @@ const UploadPhotoGallery = ({ uploadedImages, setUploadedImages }) => {
 									width={212}
 									height={194}
 									className="w-100 bdrs12 cover"
-									src={imageData}
+									src={imageData.previewUrl}
 									alt={`Uploaded Image ${index + 1}`}
 								/>
 								<button

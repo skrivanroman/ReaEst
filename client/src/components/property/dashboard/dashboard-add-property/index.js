@@ -8,24 +8,31 @@ import Amenities from './Amenities'
 import useForm from '@/utilis/useForm'
 
 const AddPropertyTabContent = () => {
-	const [formData, updateForm, setFormState] = useForm({})
+	const [formData, updateForm, setFormState] = useForm({ category: 'flat', payType: 'buy', price: 0, title: '' })
 	const [uploadedImages, setUploadedImages] = useState([])
+	const [uploadedImagesSize, setUploadedImagesSize] = useState({ size: 0, error: false })
+	const [isUploading, setIsUploading] = useState(false)
+	const [isUploaded, setIsUploaded] = useState({ done: false, error: false })
 
 	const uploadProperty = async (event) => {
 		event.preventDefault()
-		const reqBody = { ...formData, images: uploadedImages }
+		setIsUploading(true)
+		setIsUploaded({ done: false, error: false })
+		const reqBody = new FormData()
+		reqBody.append('data', JSON.stringify({ ...formData }))
+		uploadedImages.forEach((image) => reqBody.append('images', image.file))
 		const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/property`, {
 			method: 'POST',
 			credentials: 'include',
-			body: JSON.stringify(reqBody),
-			headers: {
-				'Content-Type': 'application/json',
-			},
+			body: reqBody,
 		})
+		setIsUploading(false)
 		if (response.ok) {
 			console.log('Property uploaded')
+			setIsUploaded({ done: true, error: false })
 			//setFormState({})
 		} else {
+			setIsUploaded({ done: true, error: true })
 			console.log('Failed to upload property')
 			console.log(response)
 			console.log(reqBody)
@@ -118,7 +125,7 @@ const AddPropertyTabContent = () => {
 				{/* End tab for Property Description */}
 
 				<div className="tab-pane fade" id="nav-item2" role="tabpanel" aria-labelledby="nav-item2-tab">
-					<UploadMedia {...{ uploadedImages, setUploadedImages }} />
+					<UploadMedia {...{ uploadedImages, setUploadedImages, uploadedImagesSize, setUploadedImagesSize }} />
 				</div>
 				{/* End tab for Upload photos of your property */}
 
@@ -147,7 +154,12 @@ const AddPropertyTabContent = () => {
 				</div>
 				{/*	 End tab for Select Amenities */}
 			</div>
-			<button onClick={uploadProperty}>Přidat</button>
+			<button className="ud-btn btn-white bdrs60 mx-2 mx-xl-4" onClick={uploadProperty}>
+				Nahrát
+			</button>
+			{isUploading ? <p> Zpracovává se... </p> : ''}
+			{uploadedImagesSize.error ? <p> Velikost obrázků nesmí přesahovat 200MB </p> : ''}
+			{isUploaded.done ? isUploaded.error ? <p> Při nahrávání nastala chyba </p> : <p> Nahráno správně </p> : ''}
 		</>
 	)
 }

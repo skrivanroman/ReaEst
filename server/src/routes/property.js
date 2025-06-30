@@ -1,6 +1,7 @@
 import express from 'express'
 import Property from '../database/property.js'
 import User from '../database/user.js'
+import Image from '../database/image.js'
 import validateReq from './validate-req.js'
 import Joi from 'joi'
 import { v4 as uuidv4 } from 'uuid'
@@ -10,10 +11,18 @@ import jwt from 'jsonwebtoken'
 import { fileURLToPath } from 'url'
 import sharp from 'sharp'
 import { Op } from 'sequelize'
+import multer from 'multer'
+
+const storage = multer.memoryStorage()
+const upload = multer({ storage })
 
 const propertyRouter = express.Router()
 const IMAGE_FOLER = path.join(fileURLToPath(import.meta.url), '../../../data/properties')
 const PAGE_SIZE = 25
+const MAIN_THUMB_WIDTH = 650
+const MAIN_THUMB_HEIGHT = 452
+const THUMB_WIDTH = 270
+const THUMB_HEIGHT = 250
 
 const propertyGetSchema = Joi.object({
 	limit: Joi.number().integer().greater(0),
@@ -48,6 +57,7 @@ propertyRouter.get('/property', validateReq(propertyGetSchema), async (req, res)
 
 		const properties = await Property.findAll({
 			attributes: [
+				'propertyId',
 				'uuid',
 				'payType',
 				'category',
@@ -66,15 +76,21 @@ propertyRouter.get('/property', validateReq(propertyGetSchema), async (req, res)
 		})
 
 		const withImgData = properties.map(async ({ dataValues: property }) => {
-			const images = []
-			for (let i = 0; i < property.imagesCount; i++) {
-				const {
-					info: { width, height },
-				} = await sharp(path.join(IMAGE_FOLER, `${property.uuid}/${i}.jpg`)).toBuffer({ resolveWithObject: true })
-				images.push({ width, height })
+			if (property.imagesCount === 0) {
+				throw new Error('Implement default image for properties')
 			}
-			return { ...property, images }
+
+			const { dataValues: image } = await Image.findOne({
+				attributes: ['width', 'height', 'format'],
+				where: {
+					property_property_id: property.propertyId,
+				},
+				order: [['idInProperty', 'ASC']],
+			})
+			return { ...property, image }
 		})
+
+		res.status(200)
 		res.send(JSON.stringify({ properties: await Promise.all(withImgData) }))
 	} catch (error) {
 		console.log(error)
@@ -107,27 +123,32 @@ propertyRouter.get('/property/:id', async (req, res) => {
 				'lng',
 			],
 			where: { uuid: req.params.id },
-			include: {
-				model: User,
-				required: true,
-				attributes: ['firstName', 'lastName', 'phone', 'profilePicturePath', 'uuid'],
-			},
+			include: [
+				{
+					model: User,
+					required: true,
+					attributes: ['firstName', 'lastName', 'phone', 'profilePicturePath', 'uuid'],
+				},
+				{
+					model: Image,
+					attributes: ['width', 'height', 'format'],
+					order: [['idInProperty', 'ASC']],
+				},
+			],
 		})
 		if (!property) {
 			res.send({ mes: 'not found' })
 			return
 		}
-		const images = []
-		for (let i = 0; i < property.dataValues.imagesCount; i++) {
-			const {
-				info: { width, height },
-			} = await sharp(path.join(IMAGE_FOLER, `${req.params.id}/${i}.jpg`)).toBuffer({
-				resolveWithObject: true,
+
+		const { User: user, Images: images, ...propertyData } = property.dataValues
+		res.status(200)
+		res.send(
+			JSON.stringify({
+				property: { ...propertyData, images: images.map((image) => image.dataValues) },
+				user: { ...user.dataValues },
 			})
-			images.push({ width, height })
-		}
-		const { User: user, ...propertyData } = property.dataValues
-		res.send(JSON.stringify({ property: { ...propertyData, images }, user: { ...user.dataValues } }))
+		)
 	} catch (error) {
 		console.log(error)
 		res.sendStatus(500)
@@ -143,7 +164,7 @@ const propertyPostSchema = Joi.object({
 	status: Joi.string(),
 	payType: Joi.string().allow('rent', 'buy').required(),
 	afterPrice: Joi.string(),
-	images: Joi.array().items(Joi.string().dataUri()),
+	images: Joi.array().items(Joi.object()),
 	street: Joi.string(),
 	country: Joi.string(),
 	city: Joi.string(),
@@ -162,34 +183,48 @@ const propertyPostSchema = Joi.object({
 	lng: Joi.string(),
 })
 
-propertyRouter.post('/property', validateReq(propertyPostSchema), async (req, res) => {
+propertyRouter.post('/property', upload.array('images'), async (req, res) => {
 	try {
 		if (!req.cookies['auth-token']) {
 			throw new Error('No auth token provided for /api/property')
+		}
+
+		const propertyData = JSON.parse(req.body.data)
+		const { error } = await propertyPostSchema.validateAsync(propertyData)
+		if (error) {
+			throw new Error(error)
 		}
 
 		const propertyId = uuidv4()
 		const imageFolderPath = path.join(IMAGE_FOLER, propertyId)
 		await fs.mkdir(imageFolderPath, { recursive: true })
 
-		const waitFor = req.body.images?.map((image, index) => {
-			const format = image.match(/^data:image\/(\w+);base64,/)[1]?.toLowerCase()
+		const imageMeta = []
+		const waitFor = req.files.map(async (imageBin, index) => {
+			const image = sharp(imageBin.buffer)
+			const { width, height, format } = await image.metadata()
 			if (!['jpg', 'jpeg', 'png', 'webp', 'heif', 'heic'].includes(format)) {
 				throw new Error('Unsuported image format at /api/property')
 			}
-			const imageData = image.replace(/^data:image\/\w+;base64,/, '')
+			imageMeta.push({ width, height, format })
 
-			//const imageData = image
-			if (index > 0 && index < 5) {
-				sharp(Buffer.from(imageData, 'base64'))
-					.resize(270, 250, { kernel: sharp.kernel.lanczos3 })
-					.jpeg()
+			let thumbWidth = THUMB_WIDTH
+			let thumbHeight = THUMB_HEIGHT
+
+			if (index === 0) {
+				thumbWidth = MAIN_THUMB_WIDTH
+				thumbHeight = MAIN_THUMB_HEIGHT
+			}
+			if (index < 5) {
+				image
+					.resize(thumbWidth, thumbHeight, { kernel: sharp.kernel.lanczos3 })
+					.jpeg({ quality: 85 })
+					.withMetadata(false)
 					.toFile(path.join(imageFolderPath, `${index}-thumb.jpg`))
 			}
 
-			return fs.writeFile(path.join(imageFolderPath, `${index}.${'jpg'}`), Buffer.from(imageData, 'base64'))
+			return fs.writeFile(path.join(imageFolderPath, `${index}.${format}`), imageBin.buffer)
 		})
-		await Promise.all(waitFor)
 
 		const { email } = jwt.verify(req.cookies['auth-token'], process.env.JWT_SECRET)
 		const { userId } = await User.findOne({
@@ -199,15 +234,19 @@ propertyRouter.post('/property', validateReq(propertyPostSchema), async (req, re
 			},
 		})
 
-		delete req.body.images
 		const fields = {
 			uuid: propertyId,
-			...req.body,
-			imagesCount: waitFor?.length || 0,
-			fkUserId: userId, //pouze ludek prozatim
+			...propertyData,
+			imagesCount: imageMeta.length,
+			fkUserId: userId,
+			Images: imageMeta.map((meta, index) => ({
+				idInProperty: index,
+				...meta,
+			})),
 		}
-		await Property.create(fields)
+		await Property.create(fields, { include: [{ model: Image }] })
 
+		await Promise.all(waitFor)
 		res.sendStatus(200)
 	} catch (error) {
 		console.log(error)

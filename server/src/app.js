@@ -6,6 +6,7 @@ import userRouter from './routes/user.js'
 import cookieParser from 'cookie-parser'
 import path from 'path'
 import { fileURLToPath } from 'url'
+import morgan from 'morgan'
 
 const app = express()
 const port = 3001
@@ -25,6 +26,8 @@ app.use(
 )
 app.use(cookieParser())
 app.use(express.json({ limit: '200mb' }))
+
+app.use(morgan('[:date[iso]] :method :url :status :res[content-length] in :response-time ms'))
 
 app.use('/', express.static(path.join(fileURLToPath(import.meta.url), '../../data')))
 app.use('/api', loginRouter)

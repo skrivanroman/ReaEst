@@ -13,7 +13,7 @@ const FeaturedListings = () => {
 		const fetchPosts = async () => {
 			const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/property/?limit=10`)
 			const data = await response.json()
-			console.log(data)
+			console.log(data.properties)
 			setPosts(data.properties)
 		}
 		fetchPosts()
@@ -54,10 +54,10 @@ const FeaturedListings = () => {
 							<div className="listing-style1 mb-0">
 								<div className="list-thumb">
 									<Image
-										width={382}
-										height={248}
+										width={640}
+										height={452}
 										className="w-100 h-100 cover"
-										src={`${process.env.NEXT_PUBLIC_IMAGE_BASE_URL}/properties/${listing.uuid}/0.jpg`}
+										src={`${process.env.NEXT_PUBLIC_IMAGE_BASE_URL}/properties/${listing.uuid}/0-thumb.jpg`}
 										alt="listings"
 									/>
 									<div className="sale-sticker-wrap">
