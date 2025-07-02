@@ -40,7 +40,7 @@ const Header = () => {
 											<Image width={100} height={50} src="/images/logo-cut.png" alt="Header Logo" />
 										</Link>
 										<Link className="header-logo logo2" href="/">
-											<Image width={100} height={100} src="/images/logo.jpeg" alt="Header Logo" />
+											<Image width={100} height={50} src="/images/logo-cut2.png" alt="Header Logo" />
 										</Link>
 									</div>
 									{/* End Logo */}

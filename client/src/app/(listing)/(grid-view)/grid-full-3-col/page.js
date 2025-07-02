@@ -26,7 +26,10 @@ const translate = {
 
 const GridFull3ColInner = () => {
 	const searchParams = useSearchParams()
-	const [filters, setFilters] = useState({ category: searchParams.get('category') || 'all' })
+	const [filters, setFilters] = useState({
+		category: searchParams.get('category') || 'all',
+		city: searchParams.get('city') || 'all',
+	})
 	const [properties, setProperties] = useState([])
 
 	useEffect(() => {

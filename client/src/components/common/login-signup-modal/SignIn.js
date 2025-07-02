@@ -60,7 +60,7 @@ const SignIn = () => {
 			<div className="mb15">
 				<label className="form-label fw600 dark-color">Heslo</label>
 				<input
-					type="text"
+					type="password"
 					name="password"
 					className="form-control"
 					placeholder="Zadejte heslo"
