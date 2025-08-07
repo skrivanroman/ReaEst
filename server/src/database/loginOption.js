@@ -19,6 +19,6 @@ const LoginOption = sequelize.define(
 	{ underscored: true }
 )
 
-await LoginOption.sync()
+await LoginOption.sync({ alter: false })
 
 export default LoginOption

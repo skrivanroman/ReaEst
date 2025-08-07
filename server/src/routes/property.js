@@ -234,6 +234,7 @@ propertyRouter.post('/property', upload.array('images'), async (req, res) => {
 			},
 		})
 
+		/*
 		const fields = {
 			uuid: propertyId,
 			...propertyData,
@@ -246,6 +247,7 @@ propertyRouter.post('/property', upload.array('images'), async (req, res) => {
 		}
 		await Property.create(fields, { include: [{ model: Image }] })
 
+		*/
 		await Promise.all(waitFor)
 		res.sendStatus(200)
 	} catch (error) {

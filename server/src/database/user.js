@@ -102,7 +102,7 @@ LoginOption.hasMany(User, {
 	foreignKey: 'fk_login_option_id',
 })
 
-await User.sync({ alter: true })
+await User.sync({ alter: false })
 
 User.register = async (email, password, loginOption, firstName, lastName) => {
 	try {

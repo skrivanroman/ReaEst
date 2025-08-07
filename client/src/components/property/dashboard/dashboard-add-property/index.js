@@ -8,34 +8,44 @@ import Amenities from './Amenities'
 import useForm from '@/utilis/useForm'
 
 const AddPropertyTabContent = () => {
-	const [formData, updateForm, setFormState] = useForm({ category: 'flat', payType: 'buy', price: 0, title: '' })
+	const [formData, updateForm, setFormState] = useForm({
+		category: 'flat',
+		payType: 'buy',
+		price: 0,
+		title: 'not title',
+	})
 	const [uploadedImages, setUploadedImages] = useState([])
 	const [uploadedImagesSize, setUploadedImagesSize] = useState({ size: 0, error: false })
 	const [isUploading, setIsUploading] = useState(false)
 	const [isUploaded, setIsUploaded] = useState({ done: false, error: false })
 
 	const uploadProperty = async (event) => {
-		event.preventDefault()
-		setIsUploading(true)
-		setIsUploaded({ done: false, error: false })
-		const reqBody = new FormData()
-		reqBody.append('data', JSON.stringify({ ...formData }))
-		uploadedImages.forEach((image) => reqBody.append('images', image.file))
-		const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/property`, {
-			method: 'POST',
-			credentials: 'include',
-			body: reqBody,
-		})
-		setIsUploading(false)
-		if (response.ok) {
-			console.log('Property uploaded')
-			setIsUploaded({ done: true, error: false })
-			//setFormState({})
-		} else {
-			setIsUploaded({ done: true, error: true })
-			console.log('Failed to upload property')
-			console.log(response)
-			console.log(reqBody)
+		try {
+			event.preventDefault()
+			setIsUploading(true)
+			setIsUploaded({ done: false, error: false })
+			const reqBody = new FormData()
+			reqBody.append('data', JSON.stringify({ ...formData, price: parseFloat(formData.price) }))
+			uploadedImages.forEach((image) => reqBody.append('images', image.file))
+			const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/property`, {
+				method: 'POST',
+				credentials: 'include',
+				body: reqBody,
+			})
+			setIsUploading(false)
+			const text = await response.text()
+			if (response.ok) {
+				console.log('Property uploaded')
+				setIsUploaded({ done: true, error: false })
+				//setFormState({})
+			} else {
+				setIsUploaded({ done: true, error: true })
+				console.log('Failed to upload property')
+				console.log(text)
+				console.log(reqBody)
+			}
+		} catch (err) {
+			console.log(err)
 		}
 	}
 

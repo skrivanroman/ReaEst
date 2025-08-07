@@ -123,11 +123,11 @@ Property.belongsTo(User, {
 	foreignKey: 'fk_user_id',
 })
 
-await Property.sync({ alter: true })
+await Property.sync({ alter: false })
 
 Property.hasMany(Image)
 Image.belongsTo(Property)
 
-await Image.sync({ alter: true })
+await Image.sync({ alter: false })
 
 export default Property
